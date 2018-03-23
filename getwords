@@ -1,0 +1,5 @@
+#!/bin/bash
+
+
+WORD=`grep -v  "[^abcdefghijklmnopqrstuvwxyz]" /usr/share/dict/words | sort -R | head -n 1` 
+echo $WORD

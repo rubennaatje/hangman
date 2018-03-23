@@ -1,0 +1,10 @@
+!/bin/bash
+
+
+FILE=/usr/share/dict/words
+LINES=`wc -l $FILE`
+RANDOM=`date +%N `
+NUMBER=$[( $RANDOM % $LINES ) ]
+WORD=`sed -n $NUMBER\p $FILE`
+
+echo WORD
