@@ -1,5 +1,5 @@
 #!/bin/bash
-WORD=        #te raden woord
+WORD=`grep -v  "[^abcdefghijklmnopqrstuvwxyz]" /usr/share/dict/words | sort -R | head -n 1`       #te raden woord
 TRIES=0      #aantal keren geraden
 UNGUESSEDLETTERS=abcdefghijklmnopqrstuvwxyz   #ongeraden letters
 CURRENT=    #woord waarmee je speelt
@@ -11,21 +11,33 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 
 
-while getopts dw: opt
+while getopts d:w: opt
 do
  case $opt in
  d)
- WORD=`grep -v  "[^abcdefghijklmnopqrstuvwxyz]" /usr/share/dict/words | sort -R | head -n 1`
- ;;
+   if test -f $OPTARG
+   then
+      WORD=`grep -v  "[^abcdefghijklmnopqrstuvwxyz]" $OPTARG | sort -R | head -n 1`
+      if test -z $WORD
+      then
+        echo -e "${RED}No correct dictionary file: $OPTARG"
+        exit
+      fi
+   else
+       echo -e "${RED}Can not find file: $OPTARG"
+       exit
+   fi
+   ;;
  w)
- WORD=$OPTARG
- ;;
+   WORD=$OPTARG
+   ;;
  \?)
- WORD=`grep -v  "[^abcdefghijklmnopqrstuvwxyz]" /usr/share/dict/words | sort -R | head -n 1`
- ;;
+   echo "invalid option: -$OPTARG" >&2
+   exit
+   ;;
  :)
- exit
- ;;
+   exit
+   ;;
  esac
 done
 
@@ -89,7 +101,7 @@ letterFound(){
 checkGameEnd(){
   if  test ${#WORD}  = $GUESSEDLETTERS
   then
-    echo " hej gewonnen"
+    printWinner
     exit
   fi
   if test $TRIES = "10"
@@ -104,23 +116,61 @@ print(){
   echo "Unguessed letters:" $UNGUESSEDLETTERS
   case $TRIES in
      [0-4])
-        echo -e ${GREEN}
+        printf ${GREEN}
       ;;
       [5-7])
-        echo -e ${YELLOW}
+        printf ${YELLOW}
       ;;
       [8-9])
-        echo -e ${RED}
+        printf ${RED}
       ;;
       10)
-        echo -e ${RED}
+        printf ${RED}
       ;;
   esac
   echo  "TRIES LEFT:"  $((10-TRIES))
-  echo -e ${NC}
+  printf ${NC}
   echo $CURRENT
 }
+
+printWinner(){
+currentcolor = ${RED}
+countWin=0
+while true
+do
+  case $countWin in
+    0) currentcolor=$RED
+      countWin=$((countWin+1))
+      ;;
+    1) currentcolor=$YELLOW
+      countWin=$((countWin+1))
+      ;;
+    2) currentcolor=$GREEN
+      countWin=0
+      ;;
+  esac
+
+  printf "\ec"
+  printf ${currentcolor}
+  echo ' _    _ _____ _   _  _   _  ___________ '
+  echo '| |  | |_   _| \ | || \ | ||  ___| ___ \'
+  echo '| |  | | | | |  \| ||  \| || |__ | |_/ /'
+  echo '| |/\| | | | | . ` || . ` ||  __||    /'
+  echo '\  /\  /_| |_| |\  || |\  || |___| |\ \ '
+  echo ' \/  \/ \___/\_| \_/\_| \_/\____/\_| \_|'
+  printf ${NC}
+  sleep .4
+done
+}
 convert
+
+killGame(){
+  printf "\ec"
+  echo "The word was: $WORD"
+  exit
+}
+
+trap killGame SIGINT
 while true
 do
   print
