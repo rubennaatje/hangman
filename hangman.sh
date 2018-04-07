@@ -53,7 +53,6 @@ getuserinput(){
   # clean the input
   case "$guess" in
     [$UNGUESSEDLETTERS])
-      echo "hit"
       #vergelijk
       MESSAGE=
       compare
@@ -70,7 +69,6 @@ removeUnTriedLetter(){
 }
 compare(){
   count=false
-  echo "comparing"
     for letter in $(seq 1 ${#WORD})
     do
       currentLetter=${WORD:letter-1:1}
@@ -106,7 +104,8 @@ checkGameEnd(){
   fi
   if test $TRIES = "10"
   then
-    echo " sukkel verloren"
+  printf "\ec"
+    echo "U have lost the word was $WORD"
     exit
   fi
 }
@@ -134,33 +133,35 @@ print(){
 }
 
 printWinner(){
-currentcolor = ${RED}
-countWin=0
-while true
-do
-  case $countWin in
-    0) currentcolor=$RED
-      countWin=$((countWin+1))
-      ;;
-    1) currentcolor=$YELLOW
-      countWin=$((countWin+1))
-      ;;
-    2) currentcolor=$GREEN
-      countWin=0
-      ;;
-  esac
+  currentcolor = ${RED}
+  countWin=0
+  while true
+  do
+    case $countWin in
+      0) currentcolor=$RED
+        countWin=$((countWin+1))
+        ;;
+      1) currentcolor=$YELLOW
+        countWin=$((countWin+1))
+        ;;
+      2) currentcolor=$GREEN
+        countWin=0
+        ;;
+    esac
 
-  printf "\ec"
-  printf ${currentcolor}
-  echo ' _    _ _____ _   _  _   _  ___________ '
-  echo '| |  | |_   _| \ | || \ | ||  ___| ___ \'
-  echo '| |  | | | | |  \| ||  \| || |__ | |_/ /'
-  echo '| |/\| | | | | . ` || . ` ||  __||    /'
-  echo '\  /\  /_| |_| |\  || |\  || |___| |\ \ '
-  echo ' \/  \/ \___/\_| \_/\_| \_/\____/\_| \_|'
-  printf ${NC}
-  sleep .4
-done
+    printf "\ec"
+    echo "$WORD in $TRIES tries"
+    printf ${currentcolor}
+    echo ' _    _ _____ _   _  _   _  ___________ '
+    echo '| |  | |_   _| \ | || \ | ||  ___| ___ \'
+    echo '| |  | | | | |  \| ||  \| || |__ | |_/ /'
+    echo '| |/\| | | | | . ` || . ` ||  __||    /'
+    echo '\  /\  /_| |_| |\  || |\  || |___| |\ \ '
+    echo ' \/  \/ \___/\_| \_/\_| \_/\____/\_| \_|'
+    printf ${NC}
+    echo "press CTRL + C to exit"
+    sleep .4
+  done
 }
 convert
 
