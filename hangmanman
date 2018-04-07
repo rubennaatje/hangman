@@ -1,0 +1,10 @@
+.TH Hangman.sh 1 User Manuals
+.SH NAME
+Hangman.sh \- a hangman game
+.SH SYNOPSIS
+\fB\f1
+.SH DESCRIPTION
+Hangman.sh is a small hangman script made for a assignment, it's the bash shell version of the well known hangman game. Where the user tries to guess a word set either by another player or by the computer.
+.SH AUTHOR
+Hangman.sh was written by Ruben Soerdien and Wouter Thiessen
+.SH COMMENTS

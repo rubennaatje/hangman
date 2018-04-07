@@ -1,0 +1,31 @@
+<?xml version="1.0" standalone='no'?>
+<!DOCTYPE manpage SYSTEM "http://masqmail.cx/xmltoman/xmltoman.dtd">
+<?xml-stylesheet type="text/xsl" href="http://masqmail.cx/xmltoman/xmltoman.xsl" ?>
+
+<manpage name="hangman.sh" section="1" desc="a hangman game">
+<arguments>
+  <p> use -d for a random word </p>
+<cmd>./hangman.sh <arg>-d</arg></cmd>
+  <p> use -w and a word to use that word </p>
+<cmd>./hangman.sh <arg>-w</arg> yourownword</cmd>
+</arguments>
+
+<description>
+
+<p>Hangman.sh is a small hangman script made for a assignment,
+it's the bash shell version of the well known hangman game.
+Where the user tries to guess a word set either by another player or by the computer.</p>
+
+</description>
+
+<section name = "Author">
+<p>Hangman.sh was written by Ruben Soerdien and Wouter Thiessen
+</p>
+</section>
+
+<section name = "Comments">
+
+
+</section>
+
+</manpage>
